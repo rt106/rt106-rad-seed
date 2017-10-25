@@ -1,3 +1,5 @@
+// Copyright (c) General Electric Company, 2017.  All rights reserved.
+
 const PORT = 8306;
 
 // If running with the Seed App as a Docker Container, use the line with 'web:80' below.

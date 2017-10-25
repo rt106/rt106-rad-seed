@@ -1,6 +1,8 @@
 # rt106-rad-seed
 Seed application for radiology.
 
+__Copyright (c) General Electric Company, 2017.  All rights reserved.__
+
 ### To build the Docker image
 
 To build the docker container for the rad seed:
