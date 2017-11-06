@@ -1,3 +1,4 @@
+# Copyright (c) General Electric Company, 2017.  All rights reserved.
 version: '3'
 services:
   # one instance of consul in server mode, can use multiple on different VMs for redundancy
