@@ -32,17 +32,19 @@
     <div id="toprow" class="container-fluid">
       <div class="row">
 
-        <div class="col-lg-4 col-md-8 rt106-component">
+        <div class="col-lg-5 col-md-10 rt106-component">
 
           <!-- PATIENT SELECTION TABS-->
 
           <nav class="nav nav-pills nav-fill" id="patientTab" role="tablist">
             <a class="nav-item nav-link active" role="tab" data-toggle="tab" href="#patients">Patients</a>
             <a class="nav-item nav-link" role="tab" data-toggle="tab" href="#patientdetails">Patient Details</a>
+            <a class="nav-item nav-link" role="tab" data-toggle="tab" href="#seriesexections">Series Executions</a>
           </nav>
 
           <div class="tab-content">
 
+            <!-- PATIENTS TAB -->
             <div role="tabpanel" class="tab-pane fade in active" id="patients">
               <div id="patientsection" ng-scrollbar rebuild-on="rebuild:me" ng-init="highlightPatients=[]">
                 <table class="table">
@@ -60,6 +62,7 @@
               </div>
             </div>
 
+            <!-- PATIENT DETAILS TAB -->
             <div role="tabpanel" class="tab-pane fade in active" id="patientdetails">
               <div id="detailsection" ng-scrollbar rebuild-on="rebuild:me">
                 <h3>Patient:  {{ selectedPatient.patientName }}</h3>
@@ -79,14 +82,52 @@
                       <table class="table">
                         <tr>
                           <th>ID</th>
-                          <th>Modality</th>
-                          <th>Images</th>
+                          <th>Timestamp</th>
+                          <th>P/D</th>
                         </tr>
                         <tr ng-repeat="oneSeries in study.series" ng-click="$parent.highlightSeries[$index] = !$parent.highlightSeries[$index];
                                clickSeries2( study, oneSeries, $parent.highlightSeries, $index )" ng-class="{'tr-active':$parent.highlightSeries[$index]==true}">
                           <td>{{ oneSeries.id }}</td>
-                          <td>{{ oneSeries.modality }}</td>
-                          <td>{{ oneSeries.instanceCount }}</td>
+                          <td>{{ oneSeries.timeStamp | date : 'MMM d, yyyy h:mm a' }}</td>
+                          <td>{{ oneSeries.eid | seriesFilter }}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- SERIES EXECUTIONS TAB -->
+            <div role="tabpanel" class="tab-pane fade in active" id="seriesexections">
+              <h3>Execution History</h3>
+              <h5>{{ selectedSeries[0] }}</h5>
+              <div class="fixed-height" ng-scrollbar rebuild-on="rebuild:me">
+                <table class="table">
+                  <tr>
+                    <th>Algorithm</th>
+                    <th>Start Time</th>
+                    <th>Status</th>
+                  </tr>
+                  <tr ng-repeat-start="execItem in executionList | filter : { input : selectedSeries[0] }" ng-click="expandResult = !expandResult;clickResult(execItem,expandResult)" ng-class="{'tr-active':expandResult==true}">
+                    <td>{{ execItem.analyticName }}</td>
+                    <td>{{ execItem.requestTime | date : 'MMM d, yyyy h:mm a' }}</td>
+                    <td>{{ execItem.status }}</td>
+                  </tr>
+                  <tr ng-repeat-end ng-show="expandResult">
+                    <td colspan="3">
+                      <h3>Details</h3>
+                      <table class="table">
+                        <tr>
+                          <th>Source</th>
+                          <th>Result</th>
+                          <th>Value</th>
+                        </tr>
+                        <!-- Iterate through the result list here. -->
+                        <tr class="details" ng-repeat="detailItem in execItem.details">
+                          <td>{{ detailItem.source }}</td>
+                          <td>{{ detailItem.name }}</td>
+                          <td>{{ detailItem.value }}</td>
                         </tr>
                       </table>
                     </td>
@@ -121,7 +162,7 @@
         <!-- END IMAGE TOOLS -->
 
         <!-- IMAGE VIEWER -->
-        <div class="col-lg-6 col-md-12 rt106-component">
+        <div class="col-lg-5 col-md-10 rt106-component">
           <div id="viewers" config-viewers number-of-viewers="6" viewer-width="600px" viewer-height="600px"></div>
         </div>
         <!-- END IMAGE VIEWER -->
@@ -137,7 +178,7 @@
       <div class="row">
 
         <!-- ALGORITHMS LIST -->
-        <div class="col-lg-6 col-md-12 rt106-component">
+        <div class="col-lg-4 col-md-8 rt106-component">
           <h2>Algorithms</h2>
 
           <button type="button" class="btn btn-primary" ng-disabled="disableExecute()" ng-click="requestAlgoRun()">Execute</button>
@@ -172,7 +213,7 @@
         <!-- END ALGORITHMS LIST -->
 
         <!-- EXECUTION HISTORY -->
-        <div class="col-lg-6 col-md-12 rt106-component">
+        <div class="col-lg-8 col-md-16 rt106-component">
           <h3>Execution History</h3>
           <div class="fixed-height" ng-scrollbar rebuild-on="rebuild:me">
             <table class="table">
@@ -196,7 +237,7 @@
                       <th>Value</th>
                     </tr>
                     <!-- Iterate through the result list here. -->
-                    <tr ng-repeat="detailItem in execItem.details">
+                    <tr class="details" ng-repeat="detailItem in execItem.details">
                       <td>{{ detailItem.source }}</td>
                       <td>{{ detailItem.name }}</td>
                       <td>{{ detailItem.value }}</td>
@@ -247,6 +288,7 @@
   <script src="bower_components/rt106-frontend/rt106-app/js/imageViewers.js"></script>
   <script src="bower_components/rt106-frontend/rt106-app/js/cornerstoneLayers.js"></script>
   <script src="bower_components/rt106-frontend/rt106-app/js/overlayTools.js"></script>
+  <script src="bower_components/rt106-frontend/rt106-app/filters/seriesFilter.js"></script>
 
   <!-- THIS APPLICATION'S CONTROLLER -->
   <script src="controllers/rt106SeedRadiologyController.js"></script>
