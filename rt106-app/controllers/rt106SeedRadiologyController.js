@@ -72,7 +72,11 @@
         function showDetails() {
             $('#patientTab a[href="#patientdetails"]').tab('show');
         }
+        function showExecs() {
+             $('#patientTab a[href="#seriesexecs"]').tab('show');
+        }
         function refreshBootstrap() {
+            setTimeout(showExecs,   2500);
             setTimeout(showDetails, 3000);
             setTimeout(showPatients,3500);
         }
@@ -85,8 +89,10 @@
             document.getElementById('toprow').style.maxHeight = fullheight;
             document.getElementById('patientsection').style.minHeight = height;
             document.getElementById('detailsection').style.minHeight = height;
+            document.getElementById('execsection').style.minHeight = height;
             document.getElementById('patientsection').style.maxHeight = height;
             document.getElementById('detailsection').style.maxHeight = height;
+            document.getElementById('execsection').style.maxHeight = height;
         }
 
         function topRowTall() {
