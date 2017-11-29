@@ -1,7 +1,7 @@
 # rt106-rad-seed
 Seed application for radiology.
 
-__Copyright (c) General Electric Company, 2017.  All rights reserved.__
+_Copyright (c) General Electric Company, 2017.  All rights reserved._
 
 ### To build the Docker image
 
