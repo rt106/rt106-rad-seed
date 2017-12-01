@@ -3,3 +3,5 @@
 docker-compose.yml
 Dockerfile
 webrebuild.sh
+rt106-app/bower_components
+node_modules
